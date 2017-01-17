@@ -61,7 +61,7 @@ angular.module('stallApp',
       }
     };
     $rootScope.$on('$stateChangeSuccess', function(event, toState) {
-      $rootScope.page.setTitle(toState.title || 'FReportDB');
+      $rootScope.page.setTitle(toState.title || 'Stall');
     });
   });
 
