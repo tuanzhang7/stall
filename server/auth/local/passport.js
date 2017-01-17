@@ -1,0 +1,71 @@
+import passport from 'passport';
+import {Strategy as LocalStrategy} from 'passport-local';
+
+function localAuthenticate(User, username, password, done) {
+  console.log('username:' + username);
+  User.findOne({
+    name: username
+    //name: username.toLowerCase()
+  }).exec()
+    .then(user => {
+      console.log(user);
+      if(!user) {
+        return done(null, false, {
+          message: 'This username is not registered.'
+        });
+      }
+      user.authenticate(password, function(authError, authenticated) {
+        if(authError) {
+          return done(authError);
+        }
+        if(!authenticated) {
+          return done(null, false, { message: 'This password is not correct.' });
+        } else {
+          return done(null, user);
+        }
+      });
+    })
+    .catch(err => done(err));
+}
+
+export function setup(User/*, config*/) {
+  passport.use(new LocalStrategy({
+    usernameField: 'username',
+    passwordField: 'password' // this is the virtual field on the model
+  }, function(username, password, done) {
+    return localAuthenticate(User, username, password, done);
+  }));
+}
+// function localAuthenticate(User, email, password, done) {
+//   User.findOne({
+//     email: email.toLowerCase()
+//   }).exec()
+//     .then(user => {
+//       if(!user) {
+//         return done(null, false, {
+//           message: 'This email is not registered.'
+//         });
+//       }
+//       user.authenticate(password, function(authError, authenticated) {
+//         if(authError) {
+//           return done(authError);
+//         }
+//         if(!authenticated) {
+//           return done(null, false, { message: 'This password is not correct.' });
+//         } else {
+//           return done(null, user);
+//         }
+//       });
+//     })
+//     .catch(err => done(err));
+// }
+
+// export function setup(User/*, config*/) {
+//   passport.use(new LocalStrategy({
+//     usernameField: 'email',
+//     //usernameField: 'username',
+//     passwordField: 'password' // this is the virtual field on the model
+//   }, function(email, password, done) {
+//     return localAuthenticate(User, email, password, done);
+//   }));
+// }

@@ -1,0 +1,184 @@
+/*@import '~bootstrap/dist/css/bootstrap.css';*/
+@import url('//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css');
+/**
+ * Bootstrap Fonts
+ */
+
+@font-face {
+  font-family: 'Glyphicons Halflings';
+  src: url('/assets/fonts/bootstrap/glyphicons-halflings-regular.eot');
+  src: url('/assets/fonts/bootstrap/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),
+  url('/assets/fonts/bootstrap/glyphicons-halflings-regular.woff') format('woff'),
+  url('/assets/fonts/bootstrap/glyphicons-halflings-regular.ttf') format('truetype'),
+  url('/assets/fonts/bootstrap/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+
+/*@import '~font-awesome/css/font-awesome.css';*/
+@import url('//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css');
+
+/**
+ *Font Awesome Fonts
+ */
+
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('/assets/fonts/font-awesome/fontawesome-webfont.eot?v=4.1.0');
+  src: url('/assets/fonts/font-awesome/fontawesome-webfont.eot?#iefix&v=4.1.0') format('embedded-opentype'),
+  url('/assets/fonts/font-awesome/fontawesome-webfont.woff?v=4.1.0') format('woff'),
+  url('/assets/fonts/font-awesome/fontawesome-webfont.ttf?v=4.1.0') format('truetype'),
+  url('/assets/fonts/font-awesome/fontawesome-webfont.svg?v=4.1.0#fontawesomeregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/**
+ * App-wide Styles
+ */
+
+.browserupgrade {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+
+/* Component styles are injected through gulp */
+/* inject:css */
+@import 'admin/admin.css';
+@import 'main/main.css';
+@import '../components/footer/footer.css';
+@import '../components/modal/modal.css';
+/* endinject */
+
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+    color: #fff;
+    background-color: #5080d8;
+}
+@media (min-width: 1200px) {
+  .container{
+    width: 1440px;
+  }
+}
+html {
+  overflow-y: scroll;
+}
+.panel-yellow .panel-heading ,.panel-yellow  .panel-footer{
+  border-color: #808080;
+  background-color: #f0f0f0;
+}
+input[type="radio"], input[type="checkbox"] {
+
+  height: 1.25em;
+  width: 1.25em;
+}
+.top-buffer {
+  padding-top:10px;
+  padding-bottom:10px;
+}
+.filter-row {
+  border-bottom: 1px solid;
+  border-color: lightgray ;
+}
+
+/*
+  Allow angular.js to be loaded in body, hiding cloaked elements until
+  templates compile.  The !important is important given that there may be
+  other selectors that are more specific or come later and might alter display.
+ */
+[ng\:cloak], [ng-cloak], .ng-cloak {
+  display: none !important;
+}
+
+.angular-google-map-container { height: 400px; }
+
+.fixWidth{display:inline-block; width:100px;}
+
+/*rating*/
+.orange-star {
+  font-size:  large;
+  color: #f0ad4e;
+}
+.white-star {
+  font-size:  large;
+  color: lightgrey;
+}
+.grey{
+  color: lightgrey;
+}
+.rating-number{
+ font-style: italic;
+  margin-left: 10px;
+}
+.control-top-padding {
+  padding-top:7px;
+}
+.large .label{
+  font-size: 120%;
+}
+.views {
+  display: inline-block;
+  height: 38px;
+  min-width: 40px;
+  margin: 0 7px 0 0;
+  font-size: 11px;
+  color: #848d95;
+  padding: 5px 5px 6px 5px;
+  text-align: center;
+}
+.mini-counts {
+  margin-bottom: 2px;
+  font-size: 18px;
+  color: black;
+  padding-right: 5px;
+}
+
+/*tripadviser*/
+/*.cs-review {*/
+  /*height: 144px;*/
+/*}*/
+.cs-review-details {
+  margin-top: 18px;
+  margin-bottom: 18px;
+}
+
+.vcenter {
+  display: inline-block;
+  vertical-align: middle;
+  float: none;
+  /*margin-top: 70px;*/
+}
+.cs-review-divider {
+  bottom: 0;
+  right: 0;
+  border-bottom: 1px solid #ededed;
+}
+.cs-review-snippet {
+  font-size: 12px;
+}
+.cs-review-date {
+  font-size: 11px;
+  line-height: 22px;
+  color: #999;
+}
+.cs-review-title {
+  display: block;
+  margin: 9px 0;
+  font: italic 20px Georgia,serif;
+  color: #4a4a4a;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cs-review-damage{
+  margin-left: 10px;
+}
+.app-modal-window .modal-dialog {
+  width: 1024px;
+}
+.no-padding{
+	   padding-left:0;
+    padding-right:0;
+}
