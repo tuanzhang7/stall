@@ -3,18 +3,27 @@
 import mongoose from 'mongoose';
 
 var StallSchema = new mongoose.Schema({
-  name: String,
-  address: String,
-  postcode: String,
+  name: {type: String, required: true},
+  address: {type: String, required: true},
+  postcode: {type: String, required: true},
   loc: {
-    coordinates: [],
-    type: {type: String}
+    type: {type: String},
+    coordinates: []
   },
   image: String,
   category: String,
-  selfService: Boolean,
-  isOpenNow: Boolean,
-  active: Boolean
+  selfService: {type: Boolean, default: true},
+  active: {type: Boolean, default: true},
+  dishes: [
+    {
+      dish: String,
+      image: String,
+      prices: [
+        {portion: String, price: Number}
+      ],
+      options: [String]
+    }
+  ]
 });
 StallSchema.index({loc: '2dsphere'});
 export default mongoose.model('Stall', StallSchema);
