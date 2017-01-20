@@ -24,7 +24,7 @@ module.exports = {
     + process.env.OPENSHIFT_APP_NAME
     || 'mongodb://localhost/stall'
   },
-  seedDB: false,
+  seedDB: true,
   //recaptcha
   recaptchaSecret: '6Ld7oSATAAAAABSVRDm31ilHwgBGrcyhxeWTrrhu',
   recaptchaSiteKey: '6Ld7oSATAAAAAPZbDnU_m5x-jmFEQoKgxIXFIWmy'
