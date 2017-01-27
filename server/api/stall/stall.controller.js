@@ -11,7 +11,7 @@
 'use strict';
 
 import jsonpatch from 'fast-json-patch';
-import stall from './stall.model';
+import Stall from './stall.model';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -65,22 +65,30 @@ function handleError(res, statusCode) {
 
 // Gets a list of stalls
 export function index(req, res) {
-  return stall.find().exec()
+  return Stall.find().exec()
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
 // Gets a single stall from the DB
+// export function show(req, res) {
+//   return stall.findById(req.params.id).exec()
+//     .then(handleEntityNotFound(res))
+//     .then(respondWithResult(res))
+//     .catch(handleError(res));
+// }
 export function show(req, res) {
-  return stall.findById(req.params.id).exec()
-    .then(handleEntityNotFound(res))
-    .then(respondWithResult(res))
-    .catch(handleError(res));
+  Stall.findOne({
+    number: req.params.id
+  })
+  .then(handleEntityNotFound(res))
+  .then(respondWithResult(res))
+  .catch(handleError(res));
 }
 
 // Creates a new stall in the DB
 export function create(req, res) {
-  return stall.create(req.body)
+  return Stall.create(req.body)
     .then(respondWithResult(res, 201))
     .catch(handleError(res));
 }
@@ -90,7 +98,7 @@ export function upsert(req, res) {
   if(req.body._id) {
     delete req.body._id;
   }
-  return stall.findOneAndUpdate({_id: req.params.id}, req.body, {upsert: true, setDefaultsOnInsert: true, runValidators: true}).exec()
+  return Stall.findOneAndUpdate({_id: req.params.id}, req.body, {upsert: true, setDefaultsOnInsert: true, runValidators: true}).exec()
 
     .then(respondWithResult(res))
     .catch(handleError(res));
@@ -101,7 +109,7 @@ export function patch(req, res) {
   if(req.body._id) {
     delete req.body._id;
   }
-  return stall.findById(req.params.id).exec()
+  return Stall.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(patchUpdates(req.body))
     .then(respondWithResult(res))
@@ -110,7 +118,7 @@ export function patch(req, res) {
 
 // Deletes a stall from the DB
 export function destroy(req, res) {
-  return stall.findById(req.params.id).exec()
+  return Stall.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));

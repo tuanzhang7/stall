@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 
 var StallSchema = new mongoose.Schema({
   name: {type: String, required: true},
+  number: {type: Number, required: true, unique: true},
   address: {type: String, required: true},
   postcode: {type: String, required: true},
   loc: {

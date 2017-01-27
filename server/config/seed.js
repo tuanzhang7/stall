@@ -31,8 +31,77 @@ Stall.find({}).remove()
   .then(() => {
     var stalls = [
       {
+        _id: '58807a4c8e9d3a2b3492955f',
+        number: 1,
+        name: '闽南抢滩排骨虾面 Pork Rip Prawn Noodle',
+        address: 'St83 Seng Poh Rd ,#02-31, Singapore 168898',
+        postcode: '168898',
+        loc: {
+          type: 'Point',
+          coordinates: [103.832667, 1.284981]
+        },
+        image: 'https://drive.google.com/open?id=0B8UHjrLAAKYfa0Q1QjJNM1VMQms',
+        category: 'Prawn Noodle',
+        selfService: true,
+        isOpenNow: false,
+        active: true,
+        dishes: [
+          {
+            dish: '抢滩排骨虾面 (汤) Pork Rip Prawn Noodle (Soup)',
+            image: 'https://drive.google.com/open?id=0B8UHjrLAAKYfRGk5OE5jRUlSbkE',
+            prices: [
+              {
+                price: 4.5
+              }, {
+                price: 5.5
+              }]
+          },
+          {
+            dish: '抢滩排骨虾面 (干) Pork Rip Prawn Noodle (Dry)',
+            image: 'https://drive.google.com/open?id=0B8UHjrLAAKYfczhiMk1Rc3RXckk',
+            prices: [
+              {
+                price: 4.5
+              }, {
+                price: 5.5
+              }]
+          },
+          {
+            dish: '抢滩猪尾汤 Pig\'s Tail Soup',
+            image: 'https://drive.google.com/open?id=0B8UHjrLAAKYfWGxZZURFM3hLTms',
+            prices: [
+              {
+                price: 4.0
+              }, {
+                price: 5.0
+              }]
+          },
+          {
+            dish: '虾面 (汤) Prawn Noodle (Soup)',
+            image: 'https://drive.google.com/open?id=0B8UHjrLAAKYfRmlkNzNmOFNQeUk',
+            prices: [
+              {
+                price: 3.0
+              }, {
+                price: 4.0
+              }]
+          },
+          {
+            dish: '虾面 (干) Prawn Noodle (Dry)',
+            image: 'https://drive.google.com/open?id=0B8UHjrLAAKYfRmlkNzNmOFNQeUk',
+            prices: [
+              {
+                price: 3.0
+              }, {
+                price: 4.0
+              }]
+          }
+        ]
+      },
+      {
         _id: id,
         name: '香港油鸡饭面',
+        number: 2,
         address: '335 Smith St,#02-125, Chinatown Food Complex, Singapore 050335',
         postcode: '050335',
         loc: {
@@ -90,6 +159,7 @@ Stall.find({}).remove()
       {
         _id: mongoose.Types.ObjectId('58807a4c8e9d3a2b3492955e'),
         name: '张记鱼汤',
+        number: 3,
         address: '335 Smith St,#02-125, Chinatown Food Complex, Singapore 050335',
         postcode: '050335',
         loc: {
