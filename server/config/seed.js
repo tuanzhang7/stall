@@ -26,12 +26,64 @@ User.find({}).remove()
       console.log('finished populating users');
     });
   });
-var id = mongoose.Types.ObjectId('507f1f77bcf86cd799439011');
+// var id = mongoose.Types.ObjectId('507f1f77bcf86cd799439011');
 Stall.find({}).remove()
   .then(() => {
     var stalls = [
       {
-        _id: '58807a4c8e9d3a2b3492955f',
+        number: 4,
+        name: '文庆肉脞面 Boon Keng Minced Meat Noodle',
+        address: 'UE Print Food Court 61 Tai Seng Ave, Singapore 534167',
+        postcode: '534167',
+        loc: {
+          type: 'Point',
+          coordinates: [103.887362, 1.338815]
+        },
+        image: 'https://drive.google.com/open?id=0B8UHjrLAAKYfMWkzUjd4WUlrNEk',
+        category: 'Noodle',
+        selfService: true,
+        isOpenNow: false,
+        active: true,
+        dishes: [
+          {
+            dish: '肉脞面 Minced Meat Noodle',
+            image: 'https://drive.google.com/open?id=0B8UHjrLAAKYfOEZZbHhMcDlBZUU',
+            prices: [
+              {
+                portion: '干 Dry',
+                price: 3.5
+              },
+              {
+                portion: '汤 Soup',
+                price: 3.5
+              }]
+          },
+          {
+            dish: '鱼圆面 Fishball Noodle',
+            image: 'https://drive.google.com/open?id=0B8UHjrLAAKYfUHNjY0tGeUNoUkE',
+            prices: [
+              {
+                portion: '干 Dry',
+                price: 3.0
+              },
+              {
+                portion: '汤 Soup',
+                price: 3.0
+              }
+            ]
+          },
+          {
+            dish: '小锅面/饭 Mini Pot Noodle/Rice',
+            image: 'https://drive.google.com/open?id=0B8UHjrLAAKYfVVJDenRIS184cW8',
+            prices: [
+              {
+                price: 4.5
+              }],
+            options: ['面 Noodle', '饭 Rice']
+          }
+        ]
+      },
+      {
         number: 1,
         name: '闽南抢滩排骨虾面 Pork Rip Prawn Noodle',
         address: 'St83 Seng Poh Rd ,#02-31, Singapore 168898',
@@ -99,7 +151,6 @@ Stall.find({}).remove()
         ]
       },
       {
-        _id: id,
         name: '香港油鸡饭面',
         number: 2,
         address: '335 Smith St,#02-125, Chinatown Food Complex, Singapore 050335',

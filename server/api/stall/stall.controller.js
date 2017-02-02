@@ -69,6 +69,22 @@ export function index(req, res) {
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
+// Gets a list of stalls
+export function nearby(req, res) {
+  var coord: req.params.coord;
+  var LatLng = coord.split(',');
+  var lat = parseFloat(LatLng[0]);
+  var lng = parseFloat(LatLng[1]);
+
+  var point = { type: 'Point', coordinates: [lat, lng] };
+  Stall.geoNear(point, {maxDistance: 5, spherical: true },
+    function(err, results, stats) {
+     console.log(results);
+  });
+  return Stall.find().exec()
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
 
 // Gets a single stall from the DB
 // export function show(req, res) {
