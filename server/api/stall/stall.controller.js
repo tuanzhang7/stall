@@ -23,37 +23,37 @@ function respondWithResult(res, statusCode) {
     return null;
   };
 }
-function unsetDishes(entity){
-  if(entity) {
-    console.log(entity[0].obj.image);
-    _.unset(entity[0].obj, 'image');
-    delete entity[0].obj.image;
-    Reflect.deleteProperty(entity[0].obj, 'image');
-    console.log(entity[0].obj.image);
-  }
-  return entity;
-}
-function removeDishes(res, statusCode) {
-  statusCode = statusCode || 200;
-  return function(entity) {
-    if(entity) {
-      return unsetDishes(entity);
-      // entity.forEach(function(item) {
-      //   console.log(item.obj.image);
-      //   var result = _.unset(item, 'obj.image');
-      //   console.log(result);
-      //   // delete item.obj.image;
-      //   //Reflect.deleteProperty(item.obj, 'image');
-      //   console.log(item.obj.image);
-      // });
-      // _.forEach(entity, function(item) {
-      //
-      // });
-      //return entity;
-    }
-    return null;
-  };
-}
+// function unsetDishes(entity){
+//   if(entity) {
+//     console.log(entity[0].obj.image);
+//     _.unset(entity[0].obj, 'image');
+//     delete entity[0].obj.image;
+//     Reflect.deleteProperty(entity[0].obj, 'image');
+//     console.log(entity[0].obj.image);
+//   }
+//   return entity;
+// }
+// function removeDishes(res, statusCode) {
+//   statusCode = statusCode || 200;
+//   return function(entity) {
+//     if(entity) {
+//       return unsetDishes(entity);
+//       // entity.forEach(function(item) {
+//       //   console.log(item.obj.image);
+//       //   var result = _.unset(item, 'obj.image');
+//       //   console.log(result);
+//       //   // delete item.obj.image;
+//       //   //Reflect.deleteProperty(item.obj, 'image');
+//       //   console.log(item.obj.image);
+//       // });
+//       // _.forEach(entity, function(item) {
+//       //
+//       // });
+//       //return entity;
+//     }
+//     return null;
+//   };
+// }
 
 function patchUpdates(patches) {
   return function(entity) {
@@ -115,98 +115,24 @@ export function nearby(req, res) {
     {
       maxDistance: 500,
       spherical: true,
-      query: {isOpenNow: true, active: true},
+      query: {active: true},
       num: 10
     }, function(err, results) {
       if(err){
         return res.status(500).send(err);
       }else{
         if(results) {
-          var stalls = [
-            {
-              dis: 446.0727111392892,
-              obj: {
-                number: 4,
-                name: '文庆肉脞面 Boon Keng Minced Meat Noodle',
-                address: 'UE Print Food Court 61 Tai Seng Ave, Singapore 534167',
-                postcode: '534167',
-                image: 'https://drive.google.com/open?id=0B8UHjrLAAKYfMWkzUjd4WUlrNEk',
-                category: 'Noodle',
-                __v: 0,
-                _id: '5894422a5480301934876421',
-                dishes: [
-                  {
-                    dish: '肉脞面 Minced Meat Noodle',
-                    image: 'https://drive.google.com/open?id=0B8UHjrLAAKYfOEZZbHhMcDlBZUU',
-                    _id: '5894422a5480301934876427',
-                    options: [],
-                    prices: [
-                      {
-                        portion: '干 Dry',
-                        price: 3.5,
-                        _id: '5894422a5480301934876429'
-                      },
-                      {
-                        portion: '汤 Soup',
-                        price: 3.5,
-                        _id: '5894422a5480301934876428'
-                      }
-                    ]
-                  },
-                  {
-                    dish: '鱼圆面 Fishball Noodle',
-                    image: 'https://drive.google.com/open?id=0B8UHjrLAAKYfUHNjY0tGeUNoUkE',
-                    _id: '5894422a5480301934876424',
-                    options: [],
-                    prices: [
-                      {
-                        portion: '干 Dry',
-                        price: 3,
-                        _id: '5894422a5480301934876426'
-                      },
-                      {
-                        portion: '汤 Soup',
-                        price: 3,
-                        _id: '5894422a5480301934876425'
-                      }
-                    ]
-                  },
-                  {
-                    dish: '小锅面/饭 Mini Pot Noodle/Rice',
-                    image: 'https://drive.google.com/open?id=0B8UHjrLAAKYfVVJDenRIS184cW8',
-                    _id: '5894422a5480301934876422',
-                    options: [
-                      '面 Noodle',
-                      '饭 Rice'
-                    ],
-                    prices: [
-                      {
-                        price: 4.5,
-                        _id: '5894422a5480301934876423'
-                      }
-                    ]
-                  }
-                ],
-                isOpenNow: true,
-                active: true,
-                selfService: true,
-                loc: {
-                  type: 'Point',
-                  coordinates: [
-                    103.887362,
-                    1.338815
-                  ]
-                }
-              }
-            }
-          ];
-          // console.log('isEqual:' + _.isEqual(stalls, results));
-          // console.log(stalls);
-          // console.log(results);
-          _.unset(results[0].obj, 'dishes');
-          console.log(results[0].obj.dishes);
+          var stalls = [];
+          // var stall = results[0].obj.toObject();
+          _.forEach(results, function(item) {
+            var stall = item.obj.toObject();
+            _.unset(stall, ['dishes']);
+            item.obj = stall;
+            stalls.push(item);
+          });
+
           // unsetDishes(results);
-          return res.status(200).json(results);
+          return res.status(200).json(stalls);
         }
         return null;
       }
@@ -250,7 +176,7 @@ export function create(req, res) {
 // Upserts the given stall in the DB at the specified ID
 export function upsert(req, res) {
   if(req.body._id) {
-    delete req.body._id;
+    Reflect.deleteProperty(req.body, '_id');
   }
   return Stall.findOneAndUpdate({_id: req.params.id}, req.body, {upsert: true, setDefaultsOnInsert: true, runValidators: true}).exec()
 
@@ -261,7 +187,7 @@ export function upsert(req, res) {
 // Updates an existing stall in the DB
 export function patch(req, res) {
   if(req.body._id) {
-    delete req.body._id;
+    Reflect.deleteProperty(req.body, '_id');
   }
   return Stall.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
