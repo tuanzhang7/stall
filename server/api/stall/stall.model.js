@@ -15,6 +15,7 @@ var StallSchema = new mongoose.Schema({
   category: String,
   selfService: {type: Boolean, default: true},
   active: {type: Boolean, default: true},
+  isOpenNow: {type: Boolean, default: true},
   dishes: [
     {
       dish: String,

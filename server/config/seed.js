@@ -42,7 +42,7 @@ Stall.find({}).remove()
         image: 'https://drive.google.com/open?id=0B8UHjrLAAKYfMWkzUjd4WUlrNEk',
         category: 'Noodle',
         selfService: true,
-        isOpenNow: false,
+        isOpenNow: true,
         active: true,
         dishes: [
           {
@@ -211,11 +211,11 @@ Stall.find({}).remove()
         _id: mongoose.Types.ObjectId('58807a4c8e9d3a2b3492955e'),
         name: '张记鱼汤',
         number: 3,
-        address: '335 Smith St,#02-125, Chinatown Food Complex, Singapore 050335',
-        postcode: '050335',
+        address: '12 New Industrial Rd, Singapore 536202',
+        postcode: '536202',
         loc: {
           type: 'Point',
-          coordinates: [103.843422, 1.282159]
+          coordinates: [103.885723, 1.342685]
         },
         image: 'https://drive.google.com/open?id=0B8UHjrLAAKYfdk5PVlEweG93bDA',
         category: 'Fish Soap',
