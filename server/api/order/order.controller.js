@@ -11,8 +11,8 @@
 'use strict';
 
 import jsonpatch from 'fast-json-patch';
-import Stall from './stall.model';
-import _ from 'lodash';
+import Order from './order.model';
+// import _ from 'lodash';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -97,58 +97,90 @@ function handleError(res, statusCode) {
 
 // Gets a list of stalls
 export function index(req, res) {
-  return Stall.find().exec()
+  return Order.find().exec()
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
-// Gets a list of stalls
-export function nearby(req, res) {
-  var coord = req.params.coord;
-  var LatLng = coord.split(',');
-  var lat = parseFloat(LatLng[0]);
-  var lng = parseFloat(LatLng[1]);
-  // console.log('lat:' + lat + 'lng:' + lng);
-  var point = { type: 'Point', coordinates: [lng, lat] };
-  //var point = [lng, lat];
-  //maxDistance in meter
-  Stall.geoNear(point,
-    {
-      maxDistance: 500,
-      spherical: true,
-      query: {active: true},
-      num: 10
-    }, function(err, results) {
-      if(err){
-        return res.status(500).send(err);
-      }else{
-        if(results) {
-          var stalls = [];
-          // var stall = results[0].obj.toObject();
-          _.forEach(results, function(item) {
-            var stall = item.obj.toObject();
-            _.unset(stall, ['dishes']);
-            item.obj = stall;
-            stalls.push(item);
-          });
 
-          return res.status(200).json(stalls);
-        }
-        return null;
-      }
-    });
-  // unsetDishes(stalls);
-  // return Stall.geoNear(point,
-  //   {
-  //     maxDistance: 500,
-  //     spherical: true,
-  //     query: {isOpenNow: true, active: true},
-  //     num: 10
-  //   })
-  //   .then(removeDishes(res))
-  //   .then(respondWithResult(res))
-  //   .catch(handleError(res));
+export function getStallOrders(req, res) {
+  return Order.find(
+    {
+      stall: req.params.stallid,
+      status: 'open',
+    })
+    .exec()
+    .then(respondWithResult(res))
+    .catch(handleError(res));
 }
 
+export function getUserOrders(req, res) {
+  var _status = req.query.status;// || 'open';
+  var query = {customer: req.params.userId};
+  if(_status) {
+    query.status = {
+      $eq: _status
+    };
+  }
+  return Order.find(query)
+    .sort({ orderTime: -1})
+    .limit(10)
+    .exec()
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
+export function getNumOfQueueByStall(req, res) {
+  var stallId = req.params.stallId;
+  return Order.count(
+    {
+      stall: stallId,
+      status: 'open',
+    })
+    .exec()
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
+export function getNumOfQueueByOrder(req, res) {
+  var _orderId = parseInt(req.params.orderId, 10);
+  Order.findOne({
+    orderId: _orderId
+  }).exec()
+  .then(handleEntityNotFound(res))
+  .then(order => {
+    if(order) {
+      var _stallid = order.stall;
+      console.log('_stallid:' + _stallid + ' _orderId:' + _orderId);
+
+      // return Order.count(
+      //   {
+      //     stall: _stallid,
+      //     status: 'open',
+      //     orderId: { $gt: _orderId }
+      //   }).exec();
+      Order.count(
+        {
+          stall: _stallid,
+          status: 'open',
+          orderId: { $gt: _orderId }
+        },
+        function(err, c) {
+          console.log('count:' + c);
+          if(err){
+            return res.status(500).send(err);
+          }
+          return res.status(200).json(c);
+        });
+    }else {
+      console.log('order not found:' + _orderId);
+      res.status(404).end();
+      return null;
+    }
+  })
+  // .then(handleEntityNotFound(res))
+  // .then(respondWithResult(res))
+  .catch(handleError(res));
+}
 // Gets a single stall from the DB
 // export function show(req, res) {
 //   return stall.findById(req.params.id).exec()
@@ -157,8 +189,8 @@ export function nearby(req, res) {
 //     .catch(handleError(res));
 // }
 export function show(req, res) {
-  Stall.findOne({
-    number: req.params.id
+  Order.findOne({
+    orderId: req.params.id
   })
   .then(handleEntityNotFound(res))
   .then(respondWithResult(res))
@@ -167,7 +199,7 @@ export function show(req, res) {
 
 // Creates a new stall in the DB
 export function create(req, res) {
-  return Stall.create(req.body)
+  return Order.create(req.body)
     .then(respondWithResult(res, 201))
     .catch(handleError(res));
 }
@@ -177,7 +209,7 @@ export function upsert(req, res) {
   if(req.body._id) {
     Reflect.deleteProperty(req.body, '_id');
   }
-  return Stall.findOneAndUpdate({_id: req.params.id}, req.body, {upsert: true, setDefaultsOnInsert: true, runValidators: true}).exec()
+  return Order.findOneAndUpdate({_id: req.params.id}, req.body, {upsert: true, setDefaultsOnInsert: true, runValidators: true}).exec()
 
     .then(respondWithResult(res))
     .catch(handleError(res));
@@ -188,7 +220,7 @@ export function patch(req, res) {
   if(req.body._id) {
     Reflect.deleteProperty(req.body, '_id');
   }
-  return Stall.findById(req.params.id).exec()
+  return Order.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(patchUpdates(req.body))
     .then(respondWithResult(res))
@@ -197,7 +229,7 @@ export function patch(req, res) {
 
 // Deletes a stall from the DB
 export function destroy(req, res) {
-  return Stall.findById(req.params.id).exec()
+  return Order.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));

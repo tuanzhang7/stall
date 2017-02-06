@@ -6,11 +6,13 @@
 'use strict';
 import User from '../api/user/user.model';
 import Stall from '../api/stall/stall.model';
+import Order from '../api/order/order.model';
 import mongoose from 'mongoose';
 
 User.find({}).remove()
   .then(() => {
     User.create({
+      _id: mongoose.Types.ObjectId('589815c9fabb4516709c275e'),
       provider: 'local',
       name: 'editor',
       email: 'stalldb@gmail.com',
@@ -31,6 +33,7 @@ Stall.find({}).remove()
   .then(() => {
     var stalls = [
       {
+        _id: mongoose.Types.ObjectId('58807a4c8e9d3a2b3492955e'),
         number: 4,
         name: '文庆肉脞面 Boon Keng Minced Meat Noodle',
         address: 'UE Print Food Court 61 Tai Seng Ave, Singapore 534167',
@@ -56,7 +59,8 @@ Stall.find({}).remove()
               {
                 portion: '汤 Soup',
                 price: 3.5
-              }]
+              }],
+            options: ['面 Mee kia', '面薄 Mee pok']
           },
           {
             dish: '鱼圆面 Fishball Noodle',
@@ -84,6 +88,7 @@ Stall.find({}).remove()
         ]
       },
       {
+        _id: mongoose.Types.ObjectId('5894422a548030193487642a'),
         number: 1,
         name: '闽南抢滩排骨虾面 Pork Rip Prawn Noodle',
         address: 'St83 Seng Poh Rd ,#02-31, Singapore 168898',
@@ -208,7 +213,6 @@ Stall.find({}).remove()
         }]
       },
       {
-        _id: mongoose.Types.ObjectId('58807a4c8e9d3a2b3492955e'),
         name: '张记鱼汤',
         number: 3,
         address: '12 New Industrial Rd, Singapore 536202',
@@ -273,3 +277,112 @@ Stall.find({}).remove()
     ];
     Stall.create(stalls);
   });
+
+Order.find({}).remove()
+    .then(() => {
+      var orders = [
+        {
+          orderId: 1,
+          stall: mongoose.Types.ObjectId('58807a4c8e9d3a2b3492955e'),
+          customer: mongoose.Types.ObjectId('589815c9fabb4516709c275e'),
+          customerPhone: '90400583',
+          stallName: '文庆肉脞面 Boon Keng Minced Meat Noodle',
+          orderTime: '2017-02-06T08:25:43.511Z',
+          totalAmount: 7,
+          notes: 'no chili',
+          customerLoc: {
+            type: 'Point',
+            coordinates: [103.885058, 1.342094]
+          },
+          takeAway: false,
+          dishes: [
+            {
+              dish: '肉脞面 Minced Meat Noodle',
+              qty: 1,
+              price: 3.5,
+              portion: '干 Dry',
+              option: 'Mee kia'
+            },
+            {
+              dish: '鱼圆面 Fishball Noodle',
+              qty: 1,
+              price: 3.0,
+              portion: '干 Dry'
+            }
+          ],
+          status: 'closed'
+        },
+        {
+          orderId: 2,
+          stall: mongoose.Types.ObjectId('5894422a548030193487642a'),
+          customer: mongoose.Types.ObjectId('589815c9fabb4516709c275e'),
+          customerPhone: '90400583',
+          stallName: '闽南抢滩排骨虾面 Pork Rip Prawn Noodle',
+          orderTime: '2017-02-06T11:25:43.511Z',
+          totalAmount: 9,
+          notes: 'no chili',
+          customerLoc: {
+            type: 'Point',
+            coordinates: [103.885058, 1.342094]
+          },
+          takeAway: false,
+          dishes: [
+            {
+              dish: '抢滩排骨虾面 (干) Pork Rip Prawn Noodle (Dry)',
+              qty: 2,
+              price: 4.5,
+              portion: '干 Dry',
+              option: 'Mee kia'
+            }
+          ],
+          status: 'open'
+        },
+        {
+          orderId: 3,
+          stall: mongoose.Types.ObjectId('58807a4c8e9d3a2b3492955e'),
+          customer: mongoose.Types.ObjectId('589815c9fabb4516709c275e'),
+          customerPhone: '90400583',
+          stallName: '文庆肉脞面 Boon Keng Minced Meat Noodle',
+          orderTime: '2017-02-06T09:25:43.511Z',
+          totalAmount: 3.5,
+          customerLoc: {
+            type: 'Point',
+            coordinates: [103.885058, 1.342094]
+          },
+          takeAway: true,
+          dishes: [
+            {
+              dish: '肉脞面 Minced Meat Noodle',
+              qty: 1,
+              price: 3.5,
+              portion: '干 Dry',
+              option: 'Mee kia'
+            }
+          ]
+        },
+        {
+          orderId: 4,
+          stall: mongoose.Types.ObjectId('58807a4c8e9d3a2b3492955e'),
+          customer: mongoose.Types.ObjectId('589815c9fabb4516709c275e'),
+          customerPhone: '82981261',
+          stallName: '文庆肉脞面 Boon Keng Minced Meat Noodle',
+          orderTime: '2017-02-06T09:25:43.511Z',
+          totalAmount: 3.5,
+          customerLoc: {
+            type: 'Point',
+            coordinates: [103.885058, 1.342094]
+          },
+          takeAway: false,
+          dishes: [
+            {
+              dish: '鱼圆面 Fishball Noodle',
+              qty: 1,
+              price: 3,
+              portion: '干 Dry',
+              option: 'Mee kia'
+            }
+          ]
+        },
+      ];
+      Order.create(orders);
+    });
